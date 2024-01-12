@@ -1,0 +1,10 @@
+﻿@model MovieModel
+
+@{
+    ViewData["Title"] = "Delete Movie";
+}
+
+<div class="text-center"><h2>Do you want to delete the movie <span class="text-danger">@Model.Title</span> from your list ?</h2></div>
+<div class="text-center">
+    <a class="btn btn-group btn-danger" role="button" asp-route-id="@Model.Id" asp-controller="Options" asp-action="DeleteFunction">Delete</a>
+</div>
