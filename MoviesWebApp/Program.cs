@@ -15,6 +15,7 @@ namespace MoviesWebApp
             builder.Services.AddDbContext<DatabaseContext>
                 (x => x.UseSqlServer(builder.Configuration.GetConnectionString("DatabaseConnection")));
             builder.Services.AddScoped<IMovieRepository, MovieRepository>();
+            builder.Services.AddScoped<IUserRepository, UserRepository>();
 
             var app = builder.Build();
 

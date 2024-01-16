@@ -1,0 +1,29 @@
+﻿@model UserModel
+
+@{
+    ViewData["Title"] = "Register";
+}
+
+<form asp-controller="Register" asp-action="RegisterUser" method="post">
+    <div class="mb-3">
+        <label for="Name" class="form-label">Your name</label>
+        <input type="text" asp-for="Name" class="form-control" id="NameInput">
+        @Html.ValidationMessageFor(x => x.Name)
+    </div>
+    <div class="mb-3">
+        <label for="Email" class="form-label">Email address</label>
+        <input type="text" asp-for="Email" class="form-control" id="EmailInput">
+        @Html.ValidationMessageFor(x => x.Email)
+    </div>
+    <div class="mb-3">
+        <label for="Password" class="form-label">Password</label>
+        <input type="password" asp-for="Password" class="form-control" id="PasswordInput">
+        @Html.ValidationMessageFor(x => x.Password)
+    </div>
+    <div class="mb-3">
+        <label for="Login" class="form-label">Your login user</label>
+        <input type="text" asp-for="LoginUser" class="form-control" id="LoginInput">
+        @Html.ValidationMessageFor(x => x.LoginUser)
+    </div>
+    <button type="submit" class="btn btn-primary">Create Account</button>
+</form>

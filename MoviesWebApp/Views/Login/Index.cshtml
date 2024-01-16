@@ -1,0 +1,26 @@
+﻿@model LoginModel
+
+@{
+    ViewData["Title"] = "Login";
+}
+
+@if (TempData["ErrorMessage"] != null)
+{
+    <div class="alert alert-danger" role="alert">
+        @TempData["ErrorMessage"]
+    </div>
+}
+
+<form asp-controller="Login" asp-action="LoginUser" method="post">
+    <div class="mb-3">
+        <label for="Login" class="form-label">Your login user</label>
+        <input type="text" asp-for="Login" class="form-control" id="LoginInput">
+        @Html.ValidationMessageFor(x => x.Login)
+    </div>
+    <div class="mb-3">
+        <label for="Password" class="form-label">Password</label>
+        <input type="password" asp-for="Password" class="form-control" id="PasswordInput">
+        @Html.ValidationMessageFor(x => x.Password)
+    </div>
+    <button type="submit" class="btn btn-primary">Login</button>
+</form>

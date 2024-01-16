@@ -11,5 +11,6 @@ namespace MoviesWebApp.Data
         }
 
         public DbSet<MovieModel> Movies { get; set; }
+        public DbSet<UserModel> Users { get; set; }
     }
 }
