@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MoviesWebApp.Models
 {
@@ -11,5 +12,9 @@ namespace MoviesWebApp.Models
         public string Genre { get; set; } = null!;
         [Required(ErrorMessage = "Write the release year of the movie!")]
         public int ReleaseYear { get; set; }
+        [Required]
+        [ForeignKey("UserModel")]
+        public int UserForeignID { get; set; }
+        public UserModel? UserModel { get; set; }
     }
 }

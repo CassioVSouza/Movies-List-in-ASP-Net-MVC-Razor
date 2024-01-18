@@ -1,0 +1,53 @@
+﻿@model List<UserModel>
+@{
+    ViewData["Title"] = "List users";
+}
+
+@if (TempData["MessageSucess"] != null)
+{
+    <div class="alert alert-success" role="alert">
+        @TempData["MessageSucess"]
+    </div>
+}
+
+@if (TempData["MessageError"] != null)
+{
+    <div class="alert alert-danger" role="alert">
+        @TempData["MessageError"]
+    </div>
+}
+
+<table class="table" id="UsersTable">
+    <thead>
+        <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Name</th>
+            <th scope="col">Email</th>
+            <th scope="col">Login</th>
+            <th scope="col">Profile</th>
+        </tr>
+    </thead>
+    @foreach (var user in Model)
+    {
+        <tbody>
+            <tr>
+                <td>@user.Id</td>
+                <td>@user.Name</td>
+                <td>@user.Email</td>
+                <td>@user.LoginUser</td>
+                @if (user.Profile == MoviesWebApp.Enums.ProfileEnum.Normal)
+                {
+                    <td>Normal</td>
+                }
+                else if (user.Profile == MoviesWebApp.Enums.ProfileEnum.Admin)
+                {
+                    <td>Admin</td>
+                }
+                else if (user.Profile == MoviesWebApp.Enums.ProfileEnum.Developer)
+                {
+                    <td>Developer</td>
+                }
+            </tr>
+        </tbody>
+    }
+</table>

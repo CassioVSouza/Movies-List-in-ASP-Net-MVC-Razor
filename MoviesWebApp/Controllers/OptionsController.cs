@@ -1,16 +1,24 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using MoviesWebApp.Filters;
+using MoviesWebApp.Helper;
 using MoviesWebApp.Models;
 using MoviesWebApp.Repository;
 
 namespace MoviesWebApp.Controllers
 {
+    [PageForLoggedUsers]
     public class OptionsController : Controller
     {
         private readonly IMovieRepository _movieRepository;
+        private readonly ISessionUser _sessionUser;
+        private readonly IMyLogger _myLogger;
         
-        public OptionsController(IMovieRepository movieRepository) 
+        public OptionsController(IMovieRepository movieRepository, ISessionUser sessionUser,
+            IMyLogger myLogger) 
         {
             _movieRepository = movieRepository;
+            _sessionUser = sessionUser;
+            _myLogger = myLogger;
         }
         public IActionResult AddMovieMenu()
         {
@@ -21,6 +29,10 @@ namespace MoviesWebApp.Controllers
         {
             try
             {
+                UserModel userSession = _sessionUser.FindSession();
+
+                movieModel.UserForeignID = userSession.Id;
+
                 if (ModelState.IsValid)
                 {
                     _movieRepository.AddMovie(movieModel);
@@ -29,11 +41,20 @@ namespace MoviesWebApp.Controllers
                 }
                 else
                 {
+                    foreach (var modelState in ModelState.Values)
+                    {
+                        foreach (var error in modelState.Errors)
+                        {
+                            // Log or inspect the error messages
+                            Console.WriteLine(error.ErrorMessage);
+                        }
+                    }
                     return View("AddMovieMenu", movieModel);
                 }
             }
             catch(Exception ex)
             {
+                _myLogger.MessageToLog(ex.Message);
                 TempData["MessageError"] = $"The Movie wasn't added to your list! Detailed error: {ex.Message}";
                 return RedirectToAction("Index", "Home");
             }

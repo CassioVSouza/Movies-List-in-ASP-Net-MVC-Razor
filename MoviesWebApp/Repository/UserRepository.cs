@@ -17,6 +17,12 @@ namespace MoviesWebApp.Repository
             return userModel;
         }
 
+        public List<UserModel> GetAllUsers()
+        {
+            List<UserModel> users = _databaseContext.Users.ToList();
+            return users;
+        }
+
         public UserModel GetUserByLogin(string Login)
         {
             return _databaseContext.Users.FirstOrDefault(x => x.LoginUser.ToUpper() == Login.ToUpper());

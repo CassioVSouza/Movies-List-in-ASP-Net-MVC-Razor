@@ -6,5 +6,6 @@ namespace MoviesWebApp.Repository
     {
         public UserModel AddUser(UserModel userModel);
         public UserModel GetUserByLogin(string Login);
+        public List<UserModel> GetAllUsers();
     }
 }

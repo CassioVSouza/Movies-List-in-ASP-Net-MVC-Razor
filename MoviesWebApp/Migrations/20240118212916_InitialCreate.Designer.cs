@@ -11,8 +11,8 @@ using MoviesWebApp.Data;
 namespace MoviesWebApp.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20240116131112_UserAdition")]
-    partial class UserAdition
+    [Migration("20240118212916_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -43,7 +43,12 @@ namespace MoviesWebApp.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("UserForeignID")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("UserForeignID");
 
                     b.ToTable("Movies");
                 });
@@ -72,9 +77,23 @@ namespace MoviesWebApp.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("Profile")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.ToTable("Users");
+                });
+
+            modelBuilder.Entity("MoviesWebApp.Models.MovieModel", b =>
+                {
+                    b.HasOne("MoviesWebApp.Models.UserModel", "UserModel")
+                        .WithMany()
+                        .HasForeignKey("UserForeignID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("UserModel");
                 });
 #pragma warning restore 612, 618
         }

@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using MoviesWebApp.Helper;
 using MoviesWebApp.Models;
 using MoviesWebApp.Repository;
 
@@ -8,9 +9,11 @@ namespace MoviesWebApp.Controllers
     public class RegisterController : Controller
     {
         private readonly IUserRepository _userRepository;
-        public RegisterController(IUserRepository userRepository)
+        private readonly ISessionUser _sessionUser;
+        public RegisterController(IUserRepository userRepository, ISessionUser sessionUser)
         {
             _userRepository = userRepository;
+            _sessionUser = sessionUser;
         }
         public IActionResult Index()
         {
@@ -25,6 +28,7 @@ namespace MoviesWebApp.Controllers
                 {
                     _userRepository.AddUser(userModel);
                     TempData["MessageSucess"] = "Register sucessfully!";
+                    _sessionUser.CreateSession(userModel);
                     return RedirectToAction("Index", "Home");
                 }
 

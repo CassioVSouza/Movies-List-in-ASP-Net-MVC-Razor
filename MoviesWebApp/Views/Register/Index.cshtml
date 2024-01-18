@@ -1,6 +1,7 @@
 ﻿@model UserModel
 
 @{
+    Layout = "_LayoutOff";
     ViewData["Title"] = "Register";
 }
 
@@ -27,3 +28,5 @@
     </div>
     <button type="submit" class="btn btn-primary">Create Account</button>
 </form>
+
+<a asp-controller="Login" asp-action="Index">I Already have an account!</a>

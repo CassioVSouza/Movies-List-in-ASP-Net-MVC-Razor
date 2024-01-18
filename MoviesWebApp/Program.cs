@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using MoviesWebApp.Data;
+using MoviesWebApp.Helper;
 using MoviesWebApp.Repository;
 
 namespace MoviesWebApp
@@ -16,6 +17,15 @@ namespace MoviesWebApp
                 (x => x.UseSqlServer(builder.Configuration.GetConnectionString("DatabaseConnection")));
             builder.Services.AddScoped<IMovieRepository, MovieRepository>();
             builder.Services.AddScoped<IUserRepository, UserRepository>();
+            builder.Services.AddScoped<IMyLogger, MyLogger>();
+            builder.Services.AddScoped<ISessionUser, SessionUser>();
+            builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+
+            builder.Services.AddSession(o =>
+            {
+                o.Cookie.HttpOnly = true;
+                o.Cookie.IsEssential = true;
+            });
 
             var app = builder.Build();
 
@@ -34,9 +44,11 @@ namespace MoviesWebApp
 
             app.UseAuthorization();
 
+            app.UseSession();
+
             app.MapControllerRoute(
                 name: "default",
-                pattern: "{controller=Home}/{action=Index}/{id?}");
+                pattern: "{controller=Register}/{action=Index}/{id?}");
 
             app.Run();
         }

@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using MoviesWebApp.Helper;
 using MoviesWebApp.Models;
 using MoviesWebApp.Repository;
 
@@ -7,12 +8,18 @@ namespace MoviesWebApp.Controllers
     public class LoginController : Controller
     {
         private readonly IUserRepository _userRepository;
-        public LoginController(IUserRepository userRepository) 
+        private readonly ISessionUser _sessionUser;
+        public LoginController(IUserRepository userRepository, ISessionUser sessionUser) 
         {
             _userRepository = userRepository;
+            _sessionUser = sessionUser;
         }
         public IActionResult Index()
         {
+            if(_sessionUser.FindSession() != null) 
+            {
+                return RedirectToAction("Index", "Home");
+            }
             return View();
         }
         [HttpPost]
@@ -28,6 +35,7 @@ namespace MoviesWebApp.Controllers
                     {
                         if (user.CheckPassword(loginModel.Password))
                         {
+                            _sessionUser.CreateSession(user);
                             TempData["MessageSucess"] = "Login sucessfully!";
                             return RedirectToAction("Index", "Home");
                         }
@@ -44,6 +52,12 @@ namespace MoviesWebApp.Controllers
                 TempData["ErrorMessage"] = $"Error: {ex.Message}";
                 return RedirectToAction("Index");
             }
+        }
+
+        public IActionResult ExitAccount()
+        {
+            _sessionUser.RemoveSession();
+            return View("Index");
         }
     }
 }
