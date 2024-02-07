@@ -5,7 +5,7 @@ namespace MoviesWebApp.Helper
     public interface ISessionUser
     {
         void CreateSession(UserModel userModel);
-        void RemoveSession();
+        void RemoveSession();//aaaa
         UserModel FindSession();
     }
 }
